@@ -1,3 +1,67 @@
-<div class="container text-right footer d-flex flex-row justify-content-end align-items-center">
-    <button type="button" class="btn btn-primary">Új termék</button>
+<div class="modal fade" id="nProdModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="nProdModalLabel">Új termék</h5>
+
+                <!-- data-dismiss="modal"  -->
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-4">
+                        <label for="name">Megnevezés</label>
+                        <label for="email" class="mt-3">Csoport</label>
+                    </div>
+                    <div class="col-8 text-center">
+                        <input type="text" id="name">
+                        <div class="dropdown">
+                            <button type="button" id="groups" class="btn btn-outline-dark dropdown-toggle mt-3"
+                                data-toggle="dropdown" value="/">-Válassz csoportot-</button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" onclick="addValue(0)">Számítástechnika</a>
+                                <a class="dropdown-item" onclick="addValue(1)">Háztartás</a>
+                                <a class="dropdown-item" onclick="addValue(2)">Konyhatechnika</a>
+                                <a class="dropdown-item" onclick="addValue(3)">Fűtéstechnika</a>
+                                <a class="dropdown-item" onclick="addValue(4)">Árnyékolástechnika</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!-- data-dismiss="modal"  -->
+                <button type="button" class="btn btn-secondary mr-auto" onclick="addValue(-1)" data-dismiss="modal">Mégsem</button>
+                <button type="button" class="btn btn-primary" onclick="saveProduct(document.getElementById('name').value,document.getElementById('groups').innerHTML)" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+
+<div class="container text-right footer d-flex flex-row justify-content-end align-items-center">
+    <button type="button" class="btn btn-primary" onclick="newproduct()">Új termék</button>
+</div>
+
+<script>
+    function newproduct() {
+        $('#nProdModal').modal('show')
+    }
+
+    function saveProduct(name,groups){
+        console.log(name,groups)
+    }
+
+    function addValue(value) {
+        const ddValues = ['Számítástechnika', 'Konyhatechnika', 'Fűtéstechnika', 'Árnyékolástechnika']
+        if (value > -1) {
+            document.getElementById('groups').innerHTML = ddValues[value]
+        } else {
+            document.getElementById('groups').innerHTML = '-Válassz csoportot-'
+        }
+    }
+</script>

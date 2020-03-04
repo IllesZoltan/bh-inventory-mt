@@ -10,33 +10,35 @@
                 </button>
 
             </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-4">
-                        <label for="name">Megnevezés</label>
-                        <label for="email" class="mt-3">Csoport</label>
-                    </div>
-                    <div class="col-8 text-center">
-                        <input type="text" id="name">
-                        <div class="dropdown">
-                            <button type="button" id="groups" class="btn btn-outline-dark dropdown-toggle mt-3"
-                                data-toggle="dropdown" value="/">-Válassz csoportot-</button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" onclick="addValue(0)">Számítástechnika</a>
-                                <a class="dropdown-item" onclick="addValue(1)">Háztartás</a>
-                                <a class="dropdown-item" onclick="addValue(2)">Konyhatechnika</a>
-                                <a class="dropdown-item" onclick="addValue(3)">Fűtéstechnika</a>
-                                <a class="dropdown-item" onclick="addValue(4)">Árnyékolástechnika</a>
+            <form action="/newprod" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="nName">Megnevezés</label>
+                            <label for="nGroups" class="mt-3">Csoport</label>
+                        </div>
+                        <div class="col-8 text-center">
+                            <input type="text" id="nName" name="names">
+                            <div class="dropdown">
+                                <button type="button" id="nGroup" class="btn btn-outline-dark dropdown-toggle mt-3"
+                                    data-toggle="dropdown">-Válassz csoportot-</button>
+                                <input type="hidden" id="grp" name="groups" value="*"> 
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" onclick="addValue(0)">Számítástechnika</a>
+                                    <a class="dropdown-item" onclick="addValue(1)">Háztartás</a>
+                                    <a class="dropdown-item" onclick="addValue(2)">Konyhatechnika</a>
+                                    <a class="dropdown-item" onclick="addValue(3)">Fűtéstechnika</a>
+                                    <a class="dropdown-item" onclick="addValue(4)">Árnyékolástechnika</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <!-- data-dismiss="modal"  -->
-                <button type="button" class="btn btn-secondary mr-auto" onclick="addValue(-1)" data-dismiss="modal">Mégsem</button>
-                <button type="button" class="btn btn-primary" onclick="saveProduct(document.getElementById('name').value,document.getElementById('groups').innerHTML)" data-dismiss="modal">OK</button>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary mr-auto" onclick="addValue(-1)">Mégsem</button>
+                    <button type="submit" class="btn btn-primary" onclick="hideModal()">OK</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -52,16 +54,31 @@
         $('#nProdModal').modal('show')
     }
 
-    function saveProduct(name,groups){
-        console.log(name,groups)
+    function hideModal(){
+        console.log('before hiding modal- ',document.getElementById('nName').value)
+        //document.getElementById('nGroup').innerHTML = '-Válassz csoportot-'
+        //document.getElementById('nName').innerHTML = '/'
+        $('#nProdModal').modal('hide')
+    }
+
+    function saveProduct(name, groups) {
+        console.log(name, groups)
     }
 
     function addValue(value) {
-        const ddValues = ['Számítástechnika', 'Konyhatechnika', 'Fűtéstechnika', 'Árnyékolástechnika']
+        const ddValues = ['Számítástechnika', 'Háztartás', 'Konyhatechnika', 'Fűtéstechnika', 'Árnyékolástechnika']
         if (value > -1) {
-            document.getElementById('groups').innerHTML = ddValues[value]
+            document.getElementById('nGroup').innerHTML = ddValues[value]
+            document.getElementById('grp').value = ddValues[value]
+
         } else {
-            document.getElementById('groups').innerHTML = '-Válassz csoportot-'
+            document.getElementById('nGroup').innerHTML = '-Válassz csoportot-'
+            document.getElementById('nName').innerHTML = '/'
+            $('#nProdModal').modal('hide')
+            
         }
+        console.log(document.getElementById('nGroup').innerText)
     }
+
+    
 </script>

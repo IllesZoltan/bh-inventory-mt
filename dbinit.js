@@ -23,5 +23,14 @@ function stockdb(id, namepm, count) {
     }
 }
 
+function deletion(){
+    db.serialize(() => {
+        db.run('DELETE FROM stocks')
+    })
+    //stockdb("1","vasalo","12")
+}
+
+
+//deletion()
 //database("mosogep", "haztartas")
 //stockdb("1","vasalo","12")

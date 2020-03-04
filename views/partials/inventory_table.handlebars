@@ -1,4 +1,3 @@
-
 <div class="modal fade" id="stockModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -11,21 +10,25 @@
                 </button>
 
             </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-4">
-                        <label for="count">Mennyiség</label>
-                    </div>
-                    <div class="col-8 text-center">
-                        <input type="number" id="count" name="count" value="0">
+
+<!--STOCK UPDATE FORM-->
+
+            <form action="/stock_update" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="count">Mennyiség</label>
+                        </div>
+                        <div class="col-8 text-center">
+                            <input type="number" id="count" name="count" value="0">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <!-- data-dismiss="modal"  -->
-                <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Mégsem</button>
-                <button type="button" class="btn btn-primary" onclick="saving()" data-dismiss="modal">OK</button>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Mégsem</button>
+                    <button type="submit" class="btn btn-primary" onclick="hideModal()">OK</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -43,16 +46,23 @@
             </tr>
         </thead>
         <tbody>
+
+<!--ACTIVE STOCK FORM-->
+
             {{#each stockArr}}
+            <form action="/active_stock" method="post">
             <tr>
-                <th class="text-center" id="id">{{this.rowid}}</th>
-                <td class="text-center" id="name">{{this.name}}</td>
-                <td class="text-center" id="count">{{this.count}}</td>
+                <th class="text-center" id="id"><input type="hidden" name="id" value="{{this.rowid}}">{{this.rowid}}</th>
+                <td class="text-center" id="name"><input type="hidden" name="name" value="{{this.name}}">{{this.name}}</td>
+                <td class="text-center" id="count"><input type="hidden" name="count" value="{{this.count}}">{{this.count}}</td>
                 <td class="text-center">
-                    <button type="button" class="btn btn-secondary" name="{{this.name}}" onclick="nstock(this.name)" data-id={{this.rowid}}>Szerkesztés</button>
+                    <button type="submit" class="btn btn-secondary" name="{{this.name}}" onclick="nstock(this.name)"
+                        data-id={{this.rowid}}>Szerkesztés</button>
                 </td>
             </tr>
+            </form>
             {{/each}}
+
         </tbody>
     </table>
 </div>
@@ -65,23 +75,37 @@
     let name = "";
     let id = 0;
 
-    function nstock(theName){
-        document.getElementById('stockModalLabel').innerHTML = theName+' módosítás'
+    function nstock(theName) {
+        document.getElementById('stockModalLabel').innerHTML = theName + ' módosítás'
 
         id = parseInt(event.target.dataset.id)
         name = theName
         $('#stockModal').modal('show')
     }
 
-    function saving(){
-        let cnt = document.getElementById('count').value
-        const data = `${id},${name},${cnt}`
 
-        console.log('data:-',data)
+//    function saving() {
+//        let cnt = document.getElementById('count').value
+//        const data = `${id},${name},${cnt}`
 
-        fetch(`http://localhost:3000/stock_update/${data}`, {method: 'PUT'})
+//        console.log('data:-', data)
 
-        document.getElementById('count').value = 0
+//        fetch(`http://localhost:3000/stock_update/${data}`, { method: 'PUT' })
+//        .then(response => {
+//            return response
+//        })
+//        .then(data => {
+//            console.log('response: ',data)
+//        })
+
+//        document.getElementById('count').value = 0
+//        $('#stockModal').modal('hide')
+//    }
+
+
+
+    function hideModal(){
+        $('#stockModal').modal('hide')
     }
 </script>
 

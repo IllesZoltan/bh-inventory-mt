@@ -1,0 +1,67 @@
+<div class="modal fade" id="nGroupModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="nGroupModalLabel">Új csoport</h5>
+
+                <!-- data-dismiss="modal"  -->
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+            <form action="/newgroup" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="pt-2"><label for="grId">ID</label></div>
+                            <div class="pt-2"><label for="grName" class="mt-3">Csoport</label></div>
+                        </div>
+                        <div class="col-8 text-center">
+                            <div class="pt-2"><input type="text" id="grId" name="gids"></div>
+                            <div class="pt-2"><input type="text" id="grName" name="gnames"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Mégsem</button>
+                    <button type="submit" class="btn btn-primary" onclick="hideModal()">OK</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container text-right footer d-flex flex-row justify-content-end align-items-center">
+    <button type="button" class="btn btn-primary" onclick="newgroup()">Új csoport</button>
+</div>
+
+<script>
+    const ddValues = ['Számítástechnika', 'Háztartás', 'Konyhatechnika', 'Fűtéstechnika', 'Árnyékolástechnika']
+
+    function newgroup() {
+        $('#nGroupModal').modal('show')
+    }
+
+    function hideModal(){
+        $('#nGroupModal').modal('hide')
+    }
+
+    function addValue(value) {
+        if (value > -1) {
+            document.getElementById('nGroup').innerHTML = ddValues[value]
+            document.getElementById('grp').value = ddValues[value]
+
+        } else {
+            document.getElementById('nGroup').innerHTML = '-Válassz csoportot-'
+            document.getElementById('nName').innerHTML = '/'
+            $('#nProdModal').modal('hide')
+            
+        }
+        console.log(document.getElementById('nGroup').innerText)
+    }
+
+    
+</script>

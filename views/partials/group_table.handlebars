@@ -1,0 +1,155 @@
+
+<!--GROUP EDIT MODAL-->
+
+<div class="modal fade" id="groupEditModal" tabindex="-1">
+    <div class="modal-dialog" style="width: 400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="groupEditModalLabel">Csoport szerkesztése</h5>
+
+                <!-- data-dismiss="modal"  -->
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+
+
+            <form action="/gredit" method="post">
+                <div class="modal-body">
+                    <div class="row" style="height: 50px;">
+                        <div class="col-12 text-muted">
+                            <h6 id="grpDispId"></h6>
+                            <input type="hidden" id="grpId" name="grId" value="">
+                        </div>
+                    </div>
+                    {{!-- <div class="row">
+                        <div class="col-4">
+                            <label for="grpId">ID</label>
+                        </div>
+                        <div class="col-8 text-center">
+                            <input type="number" id="grpId" name="grId" value="">
+                        </div>
+                    </div> --}}
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="grpName">Megnevezés</label>
+                        </div>
+                        <div class="col-8 text-center">
+                            <input type="text" id="grpName" name="gNm" value="Name">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Mégsem</button>
+                    <button type="submit" class="btn btn-primary" onclick="hideMod(1)">OK</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--GROUP DELETE MODAL-->
+
+<div class="modal fade" id="groupDeleteModal" tabindex="-1">
+    <div class="modal-dialog" style="width: 350px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger" id="groupDeleteModalLabel">Csoport törlése</h5>
+
+                <!-- data-dismiss="modal"  -->
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+
+
+            <form action="/grdel" method="post">
+                <div class="modal-body">
+                    <div class="row" style="height: 50px;">
+                        <div class="col-12 text-primary">
+                            <h6>Valóban szeretné törölni ezt a csoportot ?</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 text-right">
+                            <label for="grp-Id">ID:</label>
+                        </div>
+                        <div class="col-8">
+                            <input type="hidden" id="grp-Id" name="gId" value="">
+                            <h6 id="dispGrpId"></h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 text-right">
+                            <label for="grp-Name">Megnevezés:</label>
+                        </div>
+                        <div class="col-8">
+                            <input type="hidden" id="grp-Name" value="">
+                            <h6 id="dispGrpName"></h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Mégsem</button>
+                    <button type="submit" class="btn btn-primary" onclick="hideMod(-1)">OK</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th class="text-center">ID</th>
+                <th class="text-center">Megnevezés</th>
+                <th class="text-center">Műveletek</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each groups}}
+                <tr>
+                    <th class="text-center" id="id"><input type="hidden" name="id" value="{{this.id}}">{{this.id}}</th>
+                    <td class="text-center" id="name"><input type="hidden" name="name"
+                            value="{{this.maingroup}}">{{this.maingroup}}</td>
+                    <td class="text-center">
+                        <button type="submit" class="btn btn-secondary" data-name="{{this.maingroup}}"
+                            onclick="editing({{this.id}})" data-id={{this.id}}>Szerkesztés</button>
+                        <button type="submit" class="btn btn-danger" data-name="{{this.maingroup}}"
+                            onclick="deleting({{this.id}})" data-id={{this.id}}>Töröl</button>
+                    </td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+{{> grfooter}}
+
+<script>
+    function editing(theID) {
+        document.getElementById('grpDispId').innerHTML = 'Csoport ID: '+theID
+        document.getElementById('grpId').value = theID
+        document.getElementById('grpName').value = event.target.dataset.name
+
+        $('#groupEditModal').modal('show')
+    }
+
+    function deleting(theID) {
+        document.getElementById('dispGrpId').innerHTML = theID
+        document.getElementById('grp-Id').value = theID
+        document.getElementById('grp-Name').value = event.target.dataset.name
+        document.getElementById('dispGrpName').innerHTML = event.target.dataset.name
+
+        $('#groupDeleteModal').modal('show')
+    }
+
+    function hideMod(num) {
+        if (num === 1) { $('#groupEditModal').modal('hide') }
+        if (num === -1) { $('#groupDeleteModal').modal('hide') }
+    }
+</script>

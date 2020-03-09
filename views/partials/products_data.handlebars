@@ -1,0 +1,203 @@
+<!--PRODUCT EDIT MODAL-->
+
+<div class="modal fade" id="productEditModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productEditModalLabel">Termék szerkesztése</h5>
+
+                <!-- data-dismiss="modal"  -->
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+
+
+            <form action="/toedit" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="prodId">ID</label>
+                        </div>
+                        <div class="col-8 text-center">
+                            <input type="number" id="prodId" name="pId" value=3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="prodName">Megnevezés</label>
+                        </div>
+                        <div class="col-8 text-center">
+                            <input type="text" id="prodName" name="pNm" value="Name">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="prodDescription">Leírás</label>
+                        </div>
+                        <div class="col-8 text-center">
+                            <textarea id="prodDescription" name="pDes" value="Description"
+                                style="width: 180px;"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="prodCategory">Csoport</label>
+                        </div>
+                        <div class="col-8 text-center">
+                            <input type="text" id="prodCategory" name="pCtg" value="abc">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- data-dismiss="modal"  onclick="saving()"-->
+                    <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Mégsem</button>
+                    <button type="submit" class="btn btn-primary" onclick="hideMod(1)">OK</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--PRODUCT DELETE MODAL-->
+
+<div class="modal fade" id="productDeleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger" id="productDeleteModalLabel">Termék törlése</h5>
+
+                <!-- data-dismiss="modal"  -->
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+
+
+            <form action="/del" method="post">
+                <div class="modal-body">
+                    <div class="row" style="height: 50px;">
+                        <div class="col-12 text-center text-primary">
+                            <h6>Valóban szeretné törölni ezt a terméket ?</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="prod-Id">ID</label>
+                        </div>
+                        <div class="col-8 text-center">
+                            <input type="number" id="prod-Id" name="pId" value="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="prod-Name">Megnevezés</label>
+                        </div>
+                        <div class="col-8 text-center">
+                            <input type="text" id="prod-Name" value="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="prod-Category">Csoport</label>
+                        </div>
+                        <div class="col-8 text-center">
+                            <input type="text" id="prod-Category" value="">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- data-dismiss="modal"  onclick="saving()"-->
+                    <button type="button" class="btn btn-secondary mr-auto" data-dismiss="modal">Mégsem</button>
+                    <button type="submit" class="btn btn-primary" onclick="hideMod(-1)">OK</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!--PRODUCTS DISPLAY-->
+
+
+<div class="table-responsive">
+    <div class="container">
+        <table class="table table-bordered table-hover" id="products-table">
+            <thead class="thead-light">
+                <tr>
+                    <th class="text-center">ID</th>
+                    <th class="text-center">Megnevezés</th>
+                    <th class="text-center">Leírás</th>
+                    <th class="text-center">Csoport</th>
+                    <th class="text-center">Műveletek</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {{#each items}}
+                <tr>
+                    <th class="text-center">
+                        <input type="hidden" id="p_id" name="p_id" value="{{this.id}}">{{this.id}}</th>
+                    <td class="text-center">
+                        <input type="hidden" id="p_name" name="p_name" value="{{this.name}}">{{this.name}}</td>
+                    <td class="text-center">
+                        <imput type="hidden" id="p_description" name="p_description" value="{{this.description}}">
+                            {{this.description}}
+                    </td>
+                    <td class="text-center">
+                        <input type="hidden" id="p_category" name="p_category"
+                            value="{{this.category}}">{{this.category}}
+                    </td>
+
+                    <td class="text-center">
+                        <button type="button" class="btn btn-info" data-id={{this.id}} data-name="{{this.name}}"
+                            data-description="{{this.description}}" data-category="{{this.category}}"
+                            onclick="editing({{this.id}})">Szerkeszt</button>
+                        <button type="button" class="btn btn-danger" data-id={{this.id}} data-name="{{this.name}}"
+                            data-category="{{this.category}}" onclick="deleting({{this.id}})">Törlés</button>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{{> footer }}
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $('#products-table').DataTable();
+</script>
+
+<script>
+    function editing(theID) {
+        document.getElementById('prodId').value = theID
+        document.getElementById('prodName').value = event.target.dataset.name
+        document.getElementById('prodDescription').value = event.target.dataset.description
+        document.getElementById('prodCategory').value = event.target.dataset.category
+
+        $('#productEditModal').modal('show')
+    }
+
+    function deleting(theID) {
+        document.getElementById('prod-Id').value = theID
+        document.getElementById('prod-Name').value = event.target.dataset.name
+        document.getElementById('prod-Category').value = event.target.dataset.category
+
+        $('#productDeleteModal').modal('show')
+    }
+
+    function hideMod(num) {
+        if (num === 1) { $('#productEditModal').modal('hide') }
+        if (num === -1) { $('#productDeleteModal').modal('hide') }
+    }
+</script>
